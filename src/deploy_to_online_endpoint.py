@@ -49,6 +49,8 @@ def ensure_endpoint(ml_client: MLClient, endpoint_name: str) -> ManagedOnlineEnd
     try:
         return ml_client.online_endpoints.get(name=endpoint_name)
     except ResourceNotFoundError:
+        unique_suffix = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        name = f"{endpoint_name}-{unique_suffix}"  
         endpoint = ManagedOnlineEndpoint(
             name=endpoint_name,
             description="Online endpoint for MLflow diabetes model",
